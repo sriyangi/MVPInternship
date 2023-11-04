@@ -7,82 +7,94 @@ using TechTalk.SpecFlow;
 namespace MarsQA.StepDefinitions
 {
     [Binding]
-    public class LanguagesStepDefinitions
+    public sealed class LanguagesStepDefinitions
     {
-        LanguagesPage languageSkillsPage = new LanguagesPage();
+        readonly LanguagesPage languagesPage;
+
+        public LanguagesStepDefinitions()
+        {
+            languagesPage = new LanguagesPage();
+        }
 
         [Given(@"I navigate to Languages Tab")]
         public void GivenINavigateToLanguagesTab()
         {
-            languageSkillsPage.GoToLanguageTab();
+            languagesPage.GoToLanguageTab();
         }
 
         [When(@"I create a new Language Record '([^']*)' '([^']*)'")]
         public void WhenICreateANewLanguageRecord(string language, string languageLevel)
         {
-            if (!languageSkillsPage.CheckforExistingRecord(language, languageLevel))
+            if (!languagesPage.CheckforExistingRecord(language, languageLevel))
             {
-                languageSkillsPage.CreateRecord(language, languageLevel);
+                languagesPage.CreateRecord(language, languageLevel);
             }
             else
             {
                 Assert.Fail("Lannguage Record: " + language + " already exists");
             }
             //Driver.TurnOnWait();
-            Thread.Sleep(3000);
+            //Thread.Sleep(3000);
         }
 
         [When(@"I duplicate Language Record '([^']*)' '([^']*)'")]
         public void WhenIDuplicateLanguageRecord(string language, string languageLevel)
         {
-            languageSkillsPage.CreateRecord(language, languageLevel);
-            Thread.Sleep(3000);
+            Thread.Sleep(1000);
+            languagesPage.CreateRecord(language, languageLevel);
+            Thread.Sleep(1000);
         }
 
 
         [Then(@"Record should be saved '([^']*)' '([^']*)'")]
         public void ThenRecordShouldBeSaved(string language, string languageLevel)
         {
-            Assert.That(languageSkillsPage.CheckforExistingRecord(language, languageLevel), "Lannguage Record: " + language + " not created");
+            languagesPage.AssertInsertedRecord(language);
+            Thread.Sleep(1000);
+            //Assert.That(languageSkillsPage.CheckforExistingRecord(language, languageLevel), "Lannguage Record: " + language + " not created");
         }
 
         [When(@"I create an existing Language Record '([^']*)' '([^']*)'")]
         public void WhenICreateAnExistingLanguageRecord(string language, string languageLevel)
         {
-            languageSkillsPage.CreateRecord(language, languageLevel);
+            languagesPage.CreateRecord(language, languageLevel);
             //Driver.TurnOnWait();
-            Thread.Sleep(3000);
+            //Thread.Sleep(3000);
         }
 
         [Then(@"Duplicate record should not be saved '([^']*)'")]
         public void ThenDuplicateRecordShouldNotBeSaved(string language)
         {
-            Assert.That(languageSkillsPage.GetExistingRecordCount(language) == 1, "Lannguage Record: " + language + " duplicated");
+            languagesPage.AssertDuplicatedRecord(language);
+            Thread.Sleep(1000);
+            //Assert.That(languageSkillsPage.GetExistingRecordCount(language) == 1, "Lannguage Record: " + language + " duplicated");
         }
 
         [When(@"I create a Language Record with incomplete data '([^']*)' '([^']*)'")]
         public void WhenICreateALanguageRecordWithIncompleteData(string language, string languageLevel)
         {
-            languageSkillsPage.CreateRecord(language, languageLevel);
+            languagesPage.CreateRecord(language, languageLevel);
             //Driver.TurnOnWait();
-            Thread.Sleep(3000);
+            //Thread.Sleep(1000);
         }
 
         [Then(@"Record should not be saved '([^']*)' '([^']*)'")]
         public void ThenRecordShouldNotBeSaved(string language, string languageLevel)
         {
-            Assert.That(!languageSkillsPage.CheckforExistingRecord(language, languageLevel), "Lannguage Record: " + language + " saved with incorrect data");
+            languagesPage.AssertIncompleteRecord(language);
+            //Assert.That(!languagesPage.CheckforExistingRecord(language, languageLevel), "Lannguage Record: " + language + " saved with incorrect data");
+            Thread.Sleep(1000);
         }
 
         [When(@"I create the fourth Language Record '([^']*)' '([^']*)'")]
         public void WhenICreateTheFourthLanguageRecord(string language, string languageLevel)
         {
-            if (languageSkillsPage.GetRecordCount(language) < 4)
+            if (languagesPage.GetRecordCount() < 4)
             {
-                if (!languageSkillsPage.CheckforExistingRecord(language, languageLevel))
+                if (!languagesPage.CheckforExistingRecord(language, languageLevel))
                 {
-                    languageSkillsPage.CreateRecord(language, languageLevel);
-                    Thread.Sleep(3000);
+                    languagesPage.CreateRecord(language, languageLevel);
+                    //Thread.Sleep(1000);
                 }
             }
         }
@@ -90,16 +102,17 @@ namespace MarsQA.StepDefinitions
         [Then(@"Add New button should be invisible")]
         public void ThenAddNewButtonShouldBeInvisible()
         {
-            Assert.That(!languageSkillsPage.IsAddNewLanguageBtnVisible(), "Add New Language Button is visible");
+            Assert.That(!languagesPage.IsAddNewLanguageBtnVisible(), "Add New Language Button is visible");
+            Thread.Sleep(1000);
         }
 
         [When(@"I edit language record '([^']*)' '([^']*)' '([^']*)' '([^']*)'")]
         public void WhenIEditLanguageRecord(string oldlanguage, string oldlanguageLevel, string newlanguage, string newlanguageLevel)
         {
-            if (languageSkillsPage.CheckforExistingRecord(oldlanguage, oldlanguageLevel))
+            if (languagesPage.CheckforExistingRecord(oldlanguage, oldlanguageLevel))
             {
-                languageSkillsPage.EditRecord(oldlanguage,oldlanguageLevel,newlanguage,newlanguageLevel);
-                Thread.Sleep(3000);
+                languagesPage.EditRecord(oldlanguage,oldlanguageLevel,newlanguage,newlanguageLevel);
+                //Thread.Sleep(1000);
             }
             else
             {
@@ -107,14 +120,23 @@ namespace MarsQA.StepDefinitions
             }            
         }
 
+        [Then(@"Record should be updated '([^']*)' '([^']*)'")]
+        public void ThenRecordShouldBeUpdated(string language, string languageLevel)
+        {
+            languagesPage.AssertUpdatedRecord(language);
+            Thread.Sleep(1000);
+        }
+
+
         [When(@"I edit language record with exiting values '([^']*)' '([^']*)' '([^']*)' '([^']*)'")]
         public void WhenIEditLanguageRecordWithExitingValues(string oldlanguage, string oldlanguageLevel, string newlanguage, string newlanguageLevel)
         {
-            if (languageSkillsPage.CheckforExistingRecord(oldlanguage, oldlanguageLevel))
+            Thread.Sleep(1000);
+            if (languagesPage.CheckforExistingRecord(oldlanguage, oldlanguageLevel))
             {
-                languageSkillsPage.EditRecord(oldlanguage,oldlanguageLevel, newlanguage,newlanguageLevel);
+                languagesPage.EditRecord(oldlanguage,oldlanguageLevel, newlanguage,newlanguageLevel);
                 //Driver.TurnOnWait();
-                Thread.Sleep(3000);
+                //Thread.Sleep(1000);
             }
             else
             {
@@ -125,10 +147,11 @@ namespace MarsQA.StepDefinitions
         [When(@"I edit language record with incomplete data '([^']*)' '([^']*)' '([^']*)' '([^']*)'")]
         public void WhenIEditLanguageRecordWithIncompleteData(string oldlanguage, string oldlanguageLevel, string newlanguage, string newlanguageLevel)
         {
-            if (languageSkillsPage.CheckforExistingRecord(oldlanguage, oldlanguageLevel))
+            Thread.Sleep(1000);
+            if (languagesPage.CheckforExistingRecord(oldlanguage, oldlanguageLevel))
             {
-                languageSkillsPage.EditRecord(oldlanguage, oldlanguageLevel, newlanguage, newlanguageLevel);
-                Thread.Sleep(3000);
+                languagesPage.EditRecord(oldlanguage, oldlanguageLevel, newlanguage, newlanguageLevel);
+                //Thread.Sleep(1000);
             }
             else
             {
@@ -139,10 +162,10 @@ namespace MarsQA.StepDefinitions
         [When(@"I delete a language record '([^']*)' '([^']*)'")]
         public void WhenIDeleteALanguageRecord(string language, string languageLevel)
         {
-            if (languageSkillsPage.CheckforExistingRecord(language, languageLevel))
+            if (languagesPage.CheckforExistingRecord(language, languageLevel))
             {
-                languageSkillsPage.DeletRecord(language, languageLevel);
-                Thread.Sleep(3000);
+                languagesPage.DeletRecord(language, languageLevel);
+                //Thread.Sleep(1000);
             }
             else
             {
@@ -153,7 +176,23 @@ namespace MarsQA.StepDefinitions
         [Then(@"Record should be deleted '([^']*)' '([^']*)'")]
         public void ThenRecordShouldBeDeleted(string language, string languageLevel)
         {
-            Assert.That(!languageSkillsPage.CheckforExistingRecord(language, languageLevel), "Lannguage Record: " + language + " still exists");
+            languagesPage.AssertDeletedRecord(language);
+            Thread.Sleep(1000);
+            //Assert.That(!languageSkillsPage.CheckforExistingRecord(language, languageLevel), "Lannguage Record: " + language + " still exists");
+        }
+
+        [When(@"I delete existing languages")]
+        public void WhenIDeleteExistingLanguages()
+        {
+            languagesPage.GoToLanguageTab();
+            languagesPage.DeleteAllRecords();
+        }
+
+        [Then(@"All languages should be deleted")]
+        public void ThenAllLanguagesShouldBeDeleted()
+        {
+            languagesPage.AssertEmptySkills();
+            Thread.Sleep(1000);
         }
 
 

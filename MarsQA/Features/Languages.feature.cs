@@ -77,12 +77,12 @@ namespace MarsQA.Features
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("A. Create a new Language Record")]
-        public virtual void A_CreateANewLanguageRecord()
+        [NUnit.Framework.DescriptionAttribute("A. Delete existing data")]
+        public virtual void A_DeleteExistingData()
         {
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("A. Create a new Language Record", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("A. Delete existing data", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
 #line 4
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
@@ -107,22 +107,22 @@ this.ScenarioInitialize(scenarioInfo);
 testRunner.Given("I navigate to Languages Tab", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 6
-testRunner.When("I create a new Language Record \'French\' \'Basic\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+testRunner.When("I delete existing languages", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 7
-testRunner.Then("Record should be saved \'French\' \'Basic\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+testRunner.Then("All languages should be deleted", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
             this.ScenarioCleanup();
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("B. Duplicate a Language Record")]
-        public virtual void B_DuplicateALanguageRecord()
+        [NUnit.Framework.DescriptionAttribute("B. Create a new Language Record")]
+        public virtual void B_CreateANewLanguageRecord()
         {
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("B. Duplicate a Language Record", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("B. Create a new Language Record", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
 #line 9
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
@@ -147,12 +147,52 @@ this.ScenarioInitialize(scenarioInfo);
 testRunner.Given("I navigate to Languages Tab", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 11
-testRunner.When("I create a new Language Record \'Chinese\' \'Native/Bilingual\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+testRunner.When("I create a new Language Record \'French\' \'Basic\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 12
+testRunner.Then("Record should be saved \'French\' \'Basic\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            }
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("C. Duplicate a Language Record")]
+        public virtual void C_DuplicateALanguageRecord()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("C. Duplicate a Language Record", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+#line 14
+this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            bool isScenarioIgnored = default(bool);
+            bool isFeatureIgnored = default(bool);
+            if ((tagsOfScenario != null))
+            {
+                isScenarioIgnored = tagsOfScenario.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((this._featureTags != null))
+            {
+                isFeatureIgnored = this._featureTags.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((isScenarioIgnored || isFeatureIgnored))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                this.ScenarioStart();
+#line 15
+testRunner.Given("I navigate to Languages Tab", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+#line 16
+testRunner.When("I create a new Language Record \'Chinese\' \'Native/Bilingual\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 17
 testRunner.And("I duplicate Language Record \'Chinese\' \'Native/Bilingual\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 13
+#line 18
 testRunner.Then("Duplicate record should not be saved \'Chinese\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
@@ -160,18 +200,18 @@ testRunner.Then("Duplicate record should not be saved \'Chinese\'", ((string)(nu
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("C. Create a Language Record with incomplete data")]
+        [NUnit.Framework.DescriptionAttribute("D. Create a Language Record with incomplete data")]
         [NUnit.Framework.TestCaseAttribute("\'English\'", "\'\'", null)]
         [NUnit.Framework.TestCaseAttribute("\'\'", "\'Fluent\'", null)]
         [NUnit.Framework.TestCaseAttribute("\'\'", "\'\'", null)]
-        public virtual void C_CreateALanguageRecordWithIncompleteData(string language, string languageType, string[] exampleTags)
+        public virtual void D_CreateALanguageRecordWithIncompleteData(string language, string languageType, string[] exampleTags)
         {
             string[] tagsOfScenario = exampleTags;
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             argumentsOfScenario.Add("language", language);
             argumentsOfScenario.Add("language type", languageType);
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("C. Create a Language Record with incomplete data", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 15
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("D. Create a Language Record with incomplete data", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+#line 20
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -191,13 +231,13 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 this.ScenarioStart();
-#line 16
+#line 21
 testRunner.Given("I navigate to Languages Tab", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-#line 17
+#line 22
 testRunner.When(string.Format("I create a Language Record with incomplete data {0} {1}", language, languageType), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 18
+#line 23
 testRunner.Then(string.Format("Record should not be saved {0} {1}", language, languageType), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
@@ -205,9 +245,9 @@ testRunner.Then(string.Format("Record should not be saved {0} {1}", language, la
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("D. Edit a Language Record")]
+        [NUnit.Framework.DescriptionAttribute("E. Edit a Language Record")]
         [NUnit.Framework.TestCaseAttribute("\'French\'", "\'Hindi\'", "\'Basic\'", "\'Fluent\'", null)]
-        public virtual void D_EditALanguageRecord(string oldLanguage, string newLanguage, string oldlanguageType, string newlanguageType, string[] exampleTags)
+        public virtual void E_EditALanguageRecord(string oldLanguage, string newLanguage, string oldlanguageType, string newlanguageType, string[] exampleTags)
         {
             string[] tagsOfScenario = exampleTags;
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
@@ -215,8 +255,8 @@ testRunner.Then(string.Format("Record should not be saved {0} {1}", language, la
             argumentsOfScenario.Add("newLanguage", newLanguage);
             argumentsOfScenario.Add("oldlanguageType", oldlanguageType);
             argumentsOfScenario.Add("newlanguageType", newlanguageType);
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("D. Edit a Language Record", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 26
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("E. Edit a Language Record", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+#line 31
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -236,23 +276,23 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 this.ScenarioStart();
-#line 27
+#line 32
 testRunner.Given("I navigate to Languages Tab", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-#line 28
+#line 33
 testRunner.When(string.Format("I edit language record {0} {1} {2} {3}", oldLanguage, oldlanguageType, newLanguage, newlanguageType), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 29
-testRunner.Then(string.Format("Record should be saved {0} {1}", newLanguage, newlanguageType), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 34
+testRunner.Then(string.Format("Record should be updated {0} {1}", newLanguage, newlanguageType), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
             this.ScenarioCleanup();
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("E. Edit a Language Record with existing values")]
+        [NUnit.Framework.DescriptionAttribute("F. Edit a Language Record with existing values")]
         [NUnit.Framework.TestCaseAttribute("\'English\'", "\'Hindi\'", "\'Fluent\'", "\'Fluent\'", null)]
-        public virtual void E_EditALanguageRecordWithExistingValues(string oldLanguage, string newLanguage, string oldlanguageType, string newlanguageType, string[] exampleTags)
+        public virtual void F_EditALanguageRecordWithExistingValues(string oldLanguage, string newLanguage, string oldlanguageType, string newlanguageType, string[] exampleTags)
         {
             string[] tagsOfScenario = exampleTags;
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
@@ -260,8 +300,8 @@ testRunner.Then(string.Format("Record should be saved {0} {1}", newLanguage, new
             argumentsOfScenario.Add("newLanguage", newLanguage);
             argumentsOfScenario.Add("oldlanguageType", oldlanguageType);
             argumentsOfScenario.Add("newlanguageType", newlanguageType);
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("E. Edit a Language Record with existing values", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 35
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("F. Edit a Language Record with existing values", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+#line 40
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -281,16 +321,16 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 this.ScenarioStart();
-#line 36
+#line 41
 testRunner.Given("I navigate to Languages Tab", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-#line 37
+#line 42
 testRunner.When(string.Format("I create a new Language Record {0} {1}", oldLanguage, oldlanguageType), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 38
+#line 43
 testRunner.And(string.Format("I edit language record with exiting values {0} {1} {2} {3}", oldLanguage, oldlanguageType, newLanguage, newlanguageType), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 39
+#line 44
 testRunner.Then(string.Format("Duplicate record should not be saved {0}", newLanguage), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
@@ -298,11 +338,11 @@ testRunner.Then(string.Format("Duplicate record should not be saved {0}", newLan
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("F. Edit a Language Record with partial values")]
+        [NUnit.Framework.DescriptionAttribute("G. Edit a Language Record with partial values")]
         [NUnit.Framework.TestCaseAttribute("\'Chinese\'", "\'\'", "\'Native/Bilingual\'", "\'Basic\'", null)]
         [NUnit.Framework.TestCaseAttribute("\'English\'", "\'Spanish\'", "\'Fluent\'", "\'\'", null)]
         [NUnit.Framework.TestCaseAttribute("\'Hindi\'", "\'\'", "\'Fluent\'", "\'\'", null)]
-        public virtual void F_EditALanguageRecordWithPartialValues(string oldLanguage, string newLanguage, string oldlanguageType, string newlanguageType, string[] exampleTags)
+        public virtual void G_EditALanguageRecordWithPartialValues(string oldLanguage, string newLanguage, string oldlanguageType, string newlanguageType, string[] exampleTags)
         {
             string[] tagsOfScenario = exampleTags;
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
@@ -310,8 +350,8 @@ testRunner.Then(string.Format("Duplicate record should not be saved {0}", newLan
             argumentsOfScenario.Add("newLanguage", newLanguage);
             argumentsOfScenario.Add("oldlanguageType", oldlanguageType);
             argumentsOfScenario.Add("newlanguageType", newlanguageType);
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("F. Edit a Language Record with partial values", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 45
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("G. Edit a Language Record with partial values", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+#line 50
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -331,13 +371,13 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 this.ScenarioStart();
-#line 46
+#line 51
 testRunner.Given("I navigate to Languages Tab", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-#line 47
+#line 52
 testRunner.When(string.Format("I edit language record with incomplete data {0} {1} {2} {3}", oldLanguage, oldlanguageType, newLanguage, newlanguageType), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 48
+#line 53
 testRunner.Then(string.Format("Record should not be saved {0} {1}", newLanguage, newlanguageType), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
@@ -345,13 +385,13 @@ testRunner.Then(string.Format("Record should not be saved {0} {1}", newLanguage,
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("G. Once the fourth language is created Add New button should be invisible")]
-        public virtual void G_OnceTheFourthLanguageIsCreatedAddNewButtonShouldBeInvisible()
+        [NUnit.Framework.DescriptionAttribute("H. Once the fourth language is created Add New button should be invisible")]
+        public virtual void H_OnceTheFourthLanguageIsCreatedAddNewButtonShouldBeInvisible()
         {
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("G. Once the fourth language is created Add New button should be invisible", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 56
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("H. Once the fourth language is created Add New button should be invisible", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+#line 61
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -371,16 +411,16 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 this.ScenarioStart();
-#line 57
+#line 62
 testRunner.Given("I navigate to Languages Tab", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-#line 58
+#line 63
 testRunner.When("I create the fourth Language Record \'Spanish\' \'Basic\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 59
+#line 64
 testRunner.Then("Record should be saved \'Spanish\' \'Basic\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
-#line 60
+#line 65
 testRunner.And("Add New button should be invisible", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             }
@@ -388,52 +428,12 @@ testRunner.And("Add New button should be invisible", ((string)(null)), ((TechTal
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("H. Delete an existing language record")]
-        public virtual void H_DeleteAnExistingLanguageRecord()
+        [NUnit.Framework.DescriptionAttribute("I. Delete an existing language record")]
+        public virtual void I_DeleteAnExistingLanguageRecord()
         {
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("H. Delete an existing language record", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 62
-this.ScenarioInitialize(scenarioInfo);
-#line hidden
-            bool isScenarioIgnored = default(bool);
-            bool isFeatureIgnored = default(bool);
-            if ((tagsOfScenario != null))
-            {
-                isScenarioIgnored = tagsOfScenario.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
-            }
-            if ((this._featureTags != null))
-            {
-                isFeatureIgnored = this._featureTags.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
-            }
-            if ((isScenarioIgnored || isFeatureIgnored))
-            {
-                testRunner.SkipScenario();
-            }
-            else
-            {
-                this.ScenarioStart();
-#line 63
-testRunner.Given("I navigate to Languages Tab", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line hidden
-#line 64
-testRunner.When("I delete a language record \'Spanish\' \'Basic\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line hidden
-#line 65
-testRunner.Then("Record should be deleted \'Spanish\' \'Basic\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line hidden
-            }
-            this.ScenarioCleanup();
-        }
-        
-        [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("I. Create a Language Record with many characters")]
-        public virtual void I_CreateALanguageRecordWithManyCharacters()
-        {
-            string[] tagsOfScenario = ((string[])(null));
-            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("I. Create a Language Record with many characters", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("I. Delete an existing language record", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
 #line 67
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
@@ -458,10 +458,50 @@ this.ScenarioInitialize(scenarioInfo);
 testRunner.Given("I navigate to Languages Tab", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 69
+testRunner.When("I delete a language record \'Spanish\' \'Basic\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 70
+testRunner.Then("Record should be deleted \'Spanish\' \'Basic\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            }
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("J. Create a Language Record with many characters")]
+        public virtual void J_CreateALanguageRecordWithManyCharacters()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("J. Create a Language Record with many characters", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+#line 72
+this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            bool isScenarioIgnored = default(bool);
+            bool isFeatureIgnored = default(bool);
+            if ((tagsOfScenario != null))
+            {
+                isScenarioIgnored = tagsOfScenario.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((this._featureTags != null))
+            {
+                isFeatureIgnored = this._featureTags.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((isScenarioIgnored || isFeatureIgnored))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                this.ScenarioStart();
+#line 73
+testRunner.Given("I navigate to Languages Tab", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+#line 74
 testRunner.When("I create a new Language Record \'abcdefghijabcdefghijabcdefghijabcdefghijabcdefghi" +
                         "jabcdefghijabcdefghijabcdefghijabcdefghijabcdefghij\' \'Native/Bilingual\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 70
+#line 75
 testRunner.Then("Record should be saved \'abcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefg" +
                         "hijabcdefghijabcdefghijabcdefghijabcdefghij\' \'Native/Bilingual\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden

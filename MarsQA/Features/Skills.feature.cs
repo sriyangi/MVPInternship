@@ -77,12 +77,12 @@ namespace MarsQA.Features
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("A. Create a new Skill Record")]
-        public virtual void A_CreateANewSkillRecord()
+        [NUnit.Framework.DescriptionAttribute("A. Delete existing data")]
+        public virtual void A_DeleteExistingData()
         {
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("A. Create a new Skill Record", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("A. Delete existing data", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
 #line 4
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
@@ -107,22 +107,22 @@ this.ScenarioInitialize(scenarioInfo);
 testRunner.Given("I navigate to Skills Tab", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 6
-testRunner.When("I create a new Skill Record \'Writing\' \'Beginner\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+testRunner.When("I delete existing skills", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 7
-testRunner.Then("Skill Record should be saved \'Writing\' \'Beginner\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+testRunner.Then("All skills should be deleted", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
             this.ScenarioCleanup();
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("B. Duplicate a Skill Record")]
-        public virtual void B_DuplicateASkillRecord()
+        [NUnit.Framework.DescriptionAttribute("B. Create a new Skill Record")]
+        public virtual void B_CreateANewSkillRecord()
         {
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("B. Duplicate a Skill Record", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("B. Create a new Skill Record", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
 #line 9
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
@@ -147,12 +147,52 @@ this.ScenarioInitialize(scenarioInfo);
 testRunner.Given("I navigate to Skills Tab", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 11
-testRunner.When("I create a new Skill Record \'Reading\' \'Expert\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+testRunner.When("I create a new Skill Record \'Writing\' \'Beginner\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 12
+testRunner.Then("Skill Record should be saved \'Writing\' \'Beginner\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            }
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("C. Duplicate a Skill Record")]
+        public virtual void C_DuplicateASkillRecord()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("C. Duplicate a Skill Record", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+#line 14
+this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            bool isScenarioIgnored = default(bool);
+            bool isFeatureIgnored = default(bool);
+            if ((tagsOfScenario != null))
+            {
+                isScenarioIgnored = tagsOfScenario.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((this._featureTags != null))
+            {
+                isFeatureIgnored = this._featureTags.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((isScenarioIgnored || isFeatureIgnored))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                this.ScenarioStart();
+#line 15
+testRunner.Given("I navigate to Skills Tab", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+#line 16
+testRunner.When("I create a new Skill Record \'Reading\' \'Expert\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 17
 testRunner.And("I duplicate Skill Record \'Reading\' \'Expert\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 13
+#line 18
 testRunner.Then("Duplicate Skill record should not be saved \'Reading\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
@@ -160,18 +200,18 @@ testRunner.Then("Duplicate Skill record should not be saved \'Reading\'", ((stri
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("C. Create a Skill Record with incomplete data")]
+        [NUnit.Framework.DescriptionAttribute("D. Create a Skill Record with incomplete data")]
         [NUnit.Framework.TestCaseAttribute("\'Cooking\'", "\'\'", null)]
         [NUnit.Framework.TestCaseAttribute("\'\'", "\'Beginner\'", null)]
         [NUnit.Framework.TestCaseAttribute("\'\'", "\'\'", null)]
-        public virtual void C_CreateASkillRecordWithIncompleteData(string skill, string skillType, string[] exampleTags)
+        public virtual void D_CreateASkillRecordWithIncompleteData(string skill, string skillType, string[] exampleTags)
         {
             string[] tagsOfScenario = exampleTags;
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             argumentsOfScenario.Add("skill", skill);
             argumentsOfScenario.Add("skill type", skillType);
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("C. Create a Skill Record with incomplete data", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 15
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("D. Create a Skill Record with incomplete data", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+#line 20
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -191,13 +231,13 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 this.ScenarioStart();
-#line 16
+#line 21
 testRunner.Given("I navigate to Skills Tab", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-#line 17
+#line 22
 testRunner.When(string.Format("I create a Skill Record with incomplete data {0} {1}", skill, skillType), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 18
+#line 23
 testRunner.Then(string.Format("Skill Record should not be saved {0} {1}", skill, skillType), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
@@ -205,9 +245,9 @@ testRunner.Then(string.Format("Skill Record should not be saved {0} {1}", skill,
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("D. Edit a Skill Record")]
+        [NUnit.Framework.DescriptionAttribute("E. Edit a Skill Record")]
         [NUnit.Framework.TestCaseAttribute("\'Writing\'", "\'Cooking\'", "\'Beginner\'", "\'Expert\'", null)]
-        public virtual void D_EditASkillRecord(string oldSkill, string newSkill, string oldSkillType, string newSkillType, string[] exampleTags)
+        public virtual void E_EditASkillRecord(string oldSkill, string newSkill, string oldSkillType, string newSkillType, string[] exampleTags)
         {
             string[] tagsOfScenario = exampleTags;
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
@@ -215,8 +255,8 @@ testRunner.Then(string.Format("Skill Record should not be saved {0} {1}", skill,
             argumentsOfScenario.Add("newSkill", newSkill);
             argumentsOfScenario.Add("oldSkillType", oldSkillType);
             argumentsOfScenario.Add("newSkillType", newSkillType);
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("D. Edit a Skill Record", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 26
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("E. Edit a Skill Record", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+#line 31
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -236,23 +276,23 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 this.ScenarioStart();
-#line 27
+#line 32
 testRunner.Given("I navigate to Skills Tab", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-#line 28
+#line 33
 testRunner.When(string.Format("I edit skill record {0} {1} {2} {3}", oldSkill, oldSkillType, newSkill, newSkillType), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 29
-testRunner.Then(string.Format("Skill Record should be saved {0} {1}", newSkill, newSkillType), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 34
+testRunner.Then(string.Format("Skill Record should be updated {0} {1}", newSkill, newSkillType), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
             this.ScenarioCleanup();
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("E. Edit a Skill Record with existing values")]
+        [NUnit.Framework.DescriptionAttribute("F. Edit a Skill Record with existing values")]
         [NUnit.Framework.TestCaseAttribute("\'Dancing\'", "\'Cooking\'", "\'Beginner\'", "\'Expert\'", null)]
-        public virtual void E_EditASkillRecordWithExistingValues(string oldSkill, string newSkill, string oldSkillType, string newSkillType, string[] exampleTags)
+        public virtual void F_EditASkillRecordWithExistingValues(string oldSkill, string newSkill, string oldSkillType, string newSkillType, string[] exampleTags)
         {
             string[] tagsOfScenario = exampleTags;
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
@@ -260,8 +300,8 @@ testRunner.Then(string.Format("Skill Record should be saved {0} {1}", newSkill, 
             argumentsOfScenario.Add("newSkill", newSkill);
             argumentsOfScenario.Add("oldSkillType", oldSkillType);
             argumentsOfScenario.Add("newSkillType", newSkillType);
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("E. Edit a Skill Record with existing values", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 35
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("F. Edit a Skill Record with existing values", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+#line 40
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -281,16 +321,16 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 this.ScenarioStart();
-#line 36
+#line 41
 testRunner.Given("I navigate to Skills Tab", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-#line 37
+#line 42
 testRunner.When(string.Format("I create a new Skill Record {0} {1}", oldSkill, oldSkillType), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 38
+#line 43
 testRunner.And(string.Format("I edit skill record with exiting values {0} {1} {2} {3}", oldSkill, oldSkillType, newSkill, newSkillType), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 39
+#line 44
 testRunner.Then(string.Format("Duplicate Skill record should not be saved {0}", newSkill), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
@@ -298,11 +338,11 @@ testRunner.Then(string.Format("Duplicate Skill record should not be saved {0}", 
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("F. Edit a Skill Record with partial values")]
+        [NUnit.Framework.DescriptionAttribute("G. Edit a Skill Record with partial values")]
         [NUnit.Framework.TestCaseAttribute("\'Dancing\'", "\'\'", "\'Beginner\'", "\'Expert\'", null)]
         [NUnit.Framework.TestCaseAttribute("\'Cooking\'", "\'Speaking\'", "\'Expert\'", "\'\'", null)]
         [NUnit.Framework.TestCaseAttribute("\'Reading\'", "\'\'", "\'Expert\'", "\'\'", null)]
-        public virtual void F_EditASkillRecordWithPartialValues(string oldSkill, string newSkill, string oldSkillType, string newSkillType, string[] exampleTags)
+        public virtual void G_EditASkillRecordWithPartialValues(string oldSkill, string newSkill, string oldSkillType, string newSkillType, string[] exampleTags)
         {
             string[] tagsOfScenario = exampleTags;
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
@@ -310,8 +350,8 @@ testRunner.Then(string.Format("Duplicate Skill record should not be saved {0}", 
             argumentsOfScenario.Add("newSkill", newSkill);
             argumentsOfScenario.Add("oldSkillType", oldSkillType);
             argumentsOfScenario.Add("newSkillType", newSkillType);
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("F. Edit a Skill Record with partial values", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 45
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("G. Edit a Skill Record with partial values", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+#line 50
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -331,13 +371,13 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 this.ScenarioStart();
-#line 46
+#line 51
 testRunner.Given("I navigate to Skills Tab", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-#line 47
+#line 52
 testRunner.When(string.Format("I edit skill record with incomplete data {0} {1} {2} {3}", oldSkill, oldSkillType, newSkill, newSkillType), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 48
+#line 53
 testRunner.Then(string.Format("Skill Record should not be saved {0} {1}", newSkill, newSkillType), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
@@ -351,46 +391,6 @@ testRunner.Then(string.Format("Skill Record should not be saved {0} {1}", newSki
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("H. Delete an existing Skill record", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 56
-this.ScenarioInitialize(scenarioInfo);
-#line hidden
-            bool isScenarioIgnored = default(bool);
-            bool isFeatureIgnored = default(bool);
-            if ((tagsOfScenario != null))
-            {
-                isScenarioIgnored = tagsOfScenario.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
-            }
-            if ((this._featureTags != null))
-            {
-                isFeatureIgnored = this._featureTags.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
-            }
-            if ((isScenarioIgnored || isFeatureIgnored))
-            {
-                testRunner.SkipScenario();
-            }
-            else
-            {
-                this.ScenarioStart();
-#line 57
-testRunner.Given("I navigate to Skills Tab", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line hidden
-#line 58
-testRunner.When("I delete a Skill record \'Cooking\' \'Expert\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line hidden
-#line 59
-testRunner.Then("Skill Record should be deleted \'Cooking\' \'Expert\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line hidden
-            }
-            this.ScenarioCleanup();
-        }
-        
-        [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("I. Create a SKill Record with many characters")]
-        public virtual void I_CreateASKillRecordWithManyCharacters()
-        {
-            string[] tagsOfScenario = ((string[])(null));
-            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("I. Create a SKill Record with many characters", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
 #line 61
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
@@ -415,10 +415,50 @@ this.ScenarioInitialize(scenarioInfo);
 testRunner.Given("I navigate to Skills Tab", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 63
+testRunner.When("I delete a Skill record \'Cooking\' \'Expert\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 64
+testRunner.Then("Skill Record should be deleted \'Cooking\' \'Expert\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            }
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("I. Create a SKill Record with many characters")]
+        public virtual void I_CreateASKillRecordWithManyCharacters()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("I. Create a SKill Record with many characters", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+#line 66
+this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            bool isScenarioIgnored = default(bool);
+            bool isFeatureIgnored = default(bool);
+            if ((tagsOfScenario != null))
+            {
+                isScenarioIgnored = tagsOfScenario.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((this._featureTags != null))
+            {
+                isFeatureIgnored = this._featureTags.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((isScenarioIgnored || isFeatureIgnored))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                this.ScenarioStart();
+#line 67
+testRunner.Given("I navigate to Skills Tab", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+#line 68
 testRunner.When("I create a new Skill Record \'abcdefghijabcdefghijabcdefghijabcdefghijabcdefghijab" +
                         "cdefghijabcdefghijabcdefghijabcdefghijabcdefghij\' \'Expert\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 64
+#line 69
 testRunner.Then("Skill Record should be saved \'abcdefghijabcdefghijabcdefghijabcdefghijabcdefghija" +
                         "bcdefghijabcdefghijabcdefghijabcdefghijabcdefghij\' \'Expert\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden

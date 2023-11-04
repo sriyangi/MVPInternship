@@ -8,20 +8,22 @@ using System.Threading.Tasks;
 
 namespace MarsQA.Pages
 {
-    public class HomePage
+    public class HomePage: Driver 
     {
         public static void GoToProfilePage()
         {
-            WebElementAction.LocatorType locatorType = new()
-            {
-                XPath = true
-            };
+            driver.FindElement(By.XPath("//*[@id=\"account-profile-section\"]/div/section[1]/div/a[2]")).Click();
 
-            WebElementAction.WaitType waitType = new WebElementAction.WaitType();
-            waitType.ToBeClickable = true;
+            //WebElementAction.LocatorType locatorType = new()
+            //{
+            //    XPath = true
+            //};
 
-            //Click Profile Tab
-            WebElementAction.ButtonClick(waitType, locatorType, "//*[@id=\"account-profile-section\"]/div/section[1]/div/a[2]", 3);
+            //WebElementAction.WaitType waitType = new WebElementAction.WaitType();
+            //waitType.ToBeClickable = true;
+
+            ////Click Profile Tab
+            //WebElementAction.ButtonClick(waitType, locatorType, "//*[@id=\"account-profile-section\"]/div/section[1]/div/a[2]", 3);
         }
     }
 }

@@ -5862,11 +5862,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\IC Test Analyst Program\\Internship\\MarsQA\\MarsQA\\MarsQA.csproj",
+      "projectUniqueName": "D:\\IC Test Analyst Program\\Internship\\MVPInternship\\MarsQA\\MarsQA.csproj",
       "projectName": "MarsQA",
-      "projectPath": "D:\\IC Test Analyst Program\\Internship\\MarsQA\\MarsQA\\MarsQA.csproj",
+      "projectPath": "D:\\IC Test Analyst Program\\Internship\\MVPInternship\\MarsQA\\MarsQA.csproj",
       "packagesPath": "C:\\Users\\hp\\.nuget\\packages\\",
-      "outputPath": "D:\\IC Test Analyst Program\\Internship\\MarsQA\\MarsQA\\obj\\",
+      "outputPath": "D:\\IC Test Analyst Program\\Internship\\MVPInternship\\MarsQA\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\hp\\AppData\\Roaming\\NuGet\\NuGet.Config",

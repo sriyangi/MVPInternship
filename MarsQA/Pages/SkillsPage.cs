@@ -1,4 +1,5 @@
 ﻿using MarsQA.Helpers;
+using Microsoft.VisualStudio.TestPlatform.CommunicationUtilities;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using System;
@@ -6,60 +7,133 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TechTalk.SpecFlow.CommonModels;
+using static MarsQA.Helpers.Wait;
 
 namespace MarsQA.Pages
 {
-    public class SkillsPage
+    public class SkillsPage: Driver
     {
+        private IWebElement skillTab;
+        private IWebElement skillTable;
+        private IWebElement addNewButton;
+        private IWebElement skillTextbox;
+        private IWebElement skillLevelDropdownSelect;
+        private IWebElement skillLevelDropdown;
+        private IWebElement skillAddButton;
+        private IWebElement skillUpdateButton;
+        private IWebElement skillCancelButton;
+        private IWebElement messageWindow;
+        private IWebElement closeMessageIcon;
+
+        #region Render Elements
+        public void renderAddElements()
+        {
+            skillTextbox = driver.FindElement(By.XPath("//input[@type='text' and @placeholder='Add Skill']"));
+            skillLevelDropdownSelect = driver.FindElement(By.XPath("//select"));
+            skillAddButton = driver.FindElement(By.XPath("//input[@type='button' and @value='Add']"));
+            skillCancelButton = driver.FindElement(By.XPath("//input[@type='button' and @value='Cancel']"));
+        }
+
+        public void renderEditlements()
+        {
+            skillTextbox = driver.FindElement(By.XPath("//input[@type='text' and @placeholder='Add Skill']"));
+            skillLevelDropdownSelect = driver.FindElement(By.XPath("//select"));
+            skillUpdateButton = driver.FindElement(By.XPath("//input[@type='button' and @value='Update']"));
+            skillCancelButton = driver.FindElement(By.XPath("//input[@type='button' and @value='Cancel']"));
+        }
+        #endregion
+
+        #region Page Data Manipulation
+
+        //Clear State
+        public void DeleteAllRecords()
+        {
+            IList<IWebElement> tbodyCollection = skillTable.FindElements(By.TagName("tbody"));
+            IList<IWebElement> trCollection;
+            IList<IWebElement> tdCollection;
+            IList<IWebElement> spanCollection;
+
+            //loop every row in the table and init the columns to list
+            foreach (IWebElement tbodyElement in tbodyCollection)
+            {
+                trCollection = tbodyElement.FindElements(By.TagName("tr"));
+
+                foreach (IWebElement trElement in trCollection)
+                {
+                    tdCollection = trElement.FindElements(By.TagName("td"));
+                    spanCollection = tdCollection[2].FindElements(By.TagName("span"));
+                    spanCollection[1].Click();
+                }
+            }
+        }
+
         //Create Skills Record
         public void CreateRecord(string skill, string skillLevel)
         {
             string skillLevelXpath = "//option[contains(text(),'" + skillLevel + "')]";
-            WebElementAction.LocatorType locatorType = new()
-            {
-                XPath = true
-            };
-
-            WebElementAction.WaitType waitType = new()
-            {
-                ToBeVisible = true
-            };
 
             //If Cancel button is visible, first click it
-            if (IsCancelSkillBtnVisible()) WebElementAction.ButtonClick(waitType, locatorType, "//input[@type='button' and @value='Cancel']", 3);
+            if (IsCancelSkillBtnVisible()) skillCancelButton.Click();
 
-            WebElementAction.ButtonClick(waitType, locatorType, "//*[@id=\"account-profile-section\"]/div/section[2]/div/div/div/div[3]/form/div[3]/div/div[2]/div/table/thead/tr/th[3]/div", 3);
-            WebElementAction.SendKeys(waitType, locatorType, "//input[@type='text' and @placeholder='Add Skill']", 3, skill);
-            WebElementAction.ButtonClick(waitType, locatorType, "//select", 3);
-            WebElementAction.ButtonClick(waitType, locatorType, skillLevelXpath, 3);
-            WebElementAction.ButtonClick(waitType, locatorType, "//input[@type='button' and @value='Add']", 3);
+            addNewButton.Click();
+            renderAddElements();
+
+            skillTextbox.SendKeys(skill);
+            skillLevelDropdownSelect.Click();
+            skillLevelDropdown = driver.FindElement(By.XPath(skillLevelXpath));
+            skillLevelDropdown.Click();
+            skillAddButton.Click();
         }
+
+        //Edit Skill Record
+        public void EditRecord(string oldSKill, string oldSKillLevel, string newSKill, string newSKillLevel)
+        {
+            string skillLevelXpath = "//option[contains(text(),'" + newSKillLevel + "')]";
+
+            //If Cancel button is visible, first click it
+            if (IsCancelSkillBtnVisible()) skillCancelButton.Click();
+
+            GetEditDeletButtonElement(true, true, oldSKill, oldSKillLevel).Click();
+            renderEditlements();
+
+            skillTextbox.Clear();
+            skillTextbox.SendKeys(newSKill);
+            skillLevelDropdownSelect.Click();
+            skillLevelDropdown = driver.FindElement(By.XPath(skillLevelXpath));
+            skillLevelDropdown.Click();
+            skillUpdateButton.Click();
+        }
+
+        //Delete Skill Record
+        public void DeletRecord(string skill, string skillLevel)
+        {
+
+            //If Cancel button is visible, click on it
+            if (IsCancelSkillBtnVisible()) skillCancelButton.Click();
+
+            GetEditDeletButtonElement(false, true, skill, skillLevel).Click();
+        }
+
+        #endregion
+
+        #region Supporting Methods
 
         //Click Skills Tab
         public void GoToSkillTab()
         {
-            WebElementAction.LocatorType locatorType = new()
-            {
-                XPath = true
-            };
-
-            WebElementAction.WaitType waitType = new WebElementAction.WaitType();
-            waitType.ToBeClickable = true;
-
-            WebElementAction.ButtonClick(waitType, locatorType, "//a[contains(text(),'Skills')]", 3);
+            skillTab = driver.FindElement(By.XPath("//a[contains(text(),'Skills')]"));
+            skillTab.Click();
+            skillTable = driver.FindElement(By.XPath("//*[@id=\"account-profile-section\"]/div/section[2]/div/div/div/div[3]/form/div[3]/div/div[2]/div/table"));
+            addNewButton = driver.FindElement(By.XPath("//*[@id=\"account-profile-section\"]/div/section[2]/div/div/div/div[3]/form/div[3]/div/div[2]/div/table/thead/tr/th[3]/div"));
         }
 
         //Common method to check cancel button is visible
         public bool IsCancelSkillBtnVisible()
         {
-            WebElementAction.LocatorType locatorType = new()
-            {
-                XPath = true
-            };
-
             try
             {
-                IWebElement cancelSkillButton = WebElementAction.FindWebElement(locatorType, "//input[@type='button' and @value='Cancel']");
+                skillCancelButton = driver.FindElement(By.XPath("//input[@type='button' and @value='Cancel']"));
 
                 return true;
             }
@@ -69,39 +143,9 @@ namespace MarsQA.Pages
             }
         }
 
-        //Common method to check "Add New Skill" button is visible
-        public bool IsAddNewSkillBtnVisible()
-        {
-            WebElementAction.LocatorType locatorType = new()
-            {
-                XPath = true
-            };
-
-            try
-            {
-                IWebElement addNewLanguageButton = WebElementAction.FindWebElement(locatorType, "//*[@id=\"account-profile-section\"]/div/section[2]/div/div/div/div[3]/form/div[3]/div/div[2]/div/table/thead/tr/th[3]/div");
-
-                return true;
-            }
-            catch (Exception exception)
-            {
-                return false;
-            }
-        }
-
-        //Check for exeisting records in the grid
         public bool CheckforExistingRecord(string value, string levelValue)
         {
-            WebElementAction.LocatorType locatorType = new()
-            {
-                XPath = true
-            };
-
-            string xPath = "//*[@id=\"account-profile-section\"]/div/section[2]/div/div/div/div[3]/form/div[3]/div/div[2]/div/table";
-
-            IWebElement tableElement = WebElementAction.FindWebElement(locatorType, xPath);
-
-            IList<IWebElement> tbodyCollection = tableElement.FindElements(By.TagName("tbody"));
+            IList<IWebElement> tbodyCollection = skillTable.FindElements(By.TagName("tbody"));
             IList<IWebElement> trCollection;
             IList<IWebElement> tdCollection;
 
@@ -122,53 +166,10 @@ namespace MarsQA.Pages
             return false;
         }
 
-        //Get exisiting record count for a given skill 
-        public int GetExistingRecordCount(string value)
-        {
-            int recordCount = 0;
-            WebElementAction.LocatorType locatorType = new()
-            {
-                XPath = true
-            };
-
-            string xPath = "//*[@id=\"account-profile-section\"]/div/section[2]/div/div/div/div[3]/form/div[3]/div/div[2]/div/table";
-
-            IWebElement tableElement = WebElementAction.FindWebElement(locatorType, xPath);
-
-            IList<IWebElement> tbodyCollection = tableElement.FindElements(By.TagName("tbody"));
-            IList<IWebElement> trCollection;
-            IList<IWebElement> tdCollection;
-
-            //loop every row in the table and init the columns to list
-            foreach (IWebElement tbodyElement in tbodyCollection)
-            {
-                trCollection = tbodyElement.FindElements(By.TagName("tr"));
-
-                foreach (IWebElement trElement in trCollection)
-                {
-                    tdCollection = trElement.FindElements(By.TagName("td"));
-                    if (tdCollection[0].Text == value)
-                    {
-                        recordCount = recordCount + 1;
-                    }
-                }
-            }
-            return recordCount;
-        }
-
         //Common method to return Edit or Delete button depending on the parameter
         public IWebElement GetEditDeletButtonElement(bool isEdit, bool isLanguage, string value, string levelValue)
         {
-            WebElementAction.LocatorType locatorType = new()
-            {
-                XPath = true
-            };
-
-            string xPath = "//*[@id=\"account-profile-section\"]/div/section[2]/div/div/div/div[3]/form/div[3]/div/div[2]/div/table";
-
-            IWebElement tableElement = WebElementAction.FindWebElement(locatorType, xPath);
-
-            IList<IWebElement> tbodyCollection = tableElement.FindElements(By.TagName("tbody"));
+            IList<IWebElement> tbodyCollection = skillTable.FindElements(By.TagName("tbody"));
             IList<IWebElement> trCollection;
             IList<IWebElement> tdCollection;
             IList<IWebElement> spanCollection;
@@ -192,44 +193,115 @@ namespace MarsQA.Pages
             return null;
         }
 
-        //Edit Skill Record
-        public void EditRecord(string oldSKill, string oldSKillLevel, string newSKill, string newSKillLevel)
+        //Get record count in the grid
+        public int GetRecordCount()
         {
-            string sKillLevelXpath = "//option[contains(text(),'" + newSKillLevel + "')]";
-            WebElementAction.LocatorType locatorType = new()
-            {
-                XPath = true
-            };
-
-            WebElementAction.WaitType waitType = new WebElementAction.WaitType();
-            waitType.ToBeVisible = true;
-
-            //If Cancel button is visible, click on it
-            if (IsCancelSkillBtnVisible()) WebElementAction.ButtonClick(waitType, locatorType, "//input[@type='button' and @value='Cancel']", 3);
-
-            GetEditDeletButtonElement(true, true, oldSKill, oldSKillLevel).Click();
-
-            WebElementAction.SendKeys(waitType, locatorType, "//input[@type='text' and @placeholder='Add Skill']", 3, newSKill);
-            WebElementAction.ButtonClick(waitType, locatorType, "//select", 3);
-            WebElementAction.ButtonClick(waitType, locatorType, sKillLevelXpath, 3);
-            WebElementAction.ButtonClick(waitType, locatorType, "//input[@type='button' and @value='Update']", 3);
+            IList<IWebElement> tbodyCollection = skillTable.FindElements(By.TagName("tbody"));
+            return tbodyCollection.Count;
         }
 
-        //Delete Skill Record
-        public void DeletRecord(string skill, string skillLevel)
+        #endregion
+
+        #region Assertions
+
+        public void AssertInsertedRecord(string skill)
         {
-            WebElementAction.LocatorType locatorType = new()
+            messageWindow = driver.FindElement(By.XPath("//div[@class='ns-box-inner']"));
+            closeMessageIcon = driver.FindElement(By.XPath("//*[@class='ns-close']"));
+
+            string message = messageWindow.Text;
+
+            //If any message visible close it
+            closeMessageIcon.Click();
+
+            if (IsCancelSkillBtnVisible())
             {
-                XPath = true
-            };
+                skillCancelButton.Click();
+            }
 
-            WebElementAction.WaitType waitType = new WebElementAction.WaitType();
-            waitType.ToBeVisible = true;
-
-            //If Cancel button is visible, click on it
-            if (IsCancelSkillBtnVisible()) WebElementAction.ButtonClick(waitType, locatorType, "//input[@type='button' and @value='Cancel']", 3);
-
-            GetEditDeletButtonElement(false, true, skill, skillLevel).Click();
+            Assert.That(message, Is.EqualTo(skill + " has been added to your skills"), "succes message is not correct for add skill");
         }
+
+        public void AssertDuplicatedRecord(string skill)
+        {
+            messageWindow = driver.FindElement(By.XPath("//div[@class='ns-box-inner']"));
+            closeMessageIcon = driver.FindElement(By.XPath("//*[@class='ns-close']"));
+
+            string message = messageWindow.Text;
+
+            //If any message visible close it
+            closeMessageIcon.Click();
+
+            if (IsCancelSkillBtnVisible())
+            {
+                skillCancelButton.Click();
+            }
+
+            Assert.That(message == "This skill is already exist in your skill list." || message == "Duplicated data" || message == "This skill is already added to your skill list.", "succes message is not correct for duplicated skill");
+        }
+
+        public void AssertUpdatedRecord(string skill)
+        {
+            messageWindow = driver.FindElement(By.XPath("//div[@class='ns-box-inner']"));
+            closeMessageIcon = driver.FindElement(By.XPath("//*[@class='ns-close']"));
+
+            string message = messageWindow.Text;
+
+            //If any message visible close it
+            closeMessageIcon.Click();
+
+            if (IsCancelSkillBtnVisible())
+            {
+                skillCancelButton.Click();
+            }
+
+            Assert.That(message, Is.EqualTo(skill + " has been updated to your skills"), "succes message is not correct for update skill");
+        }
+
+        public void AssertIncompleteRecord(string skill)
+        {
+            Wait.WaitToBeExists(LocatorType.XPath, "//div[@class='ns-box-inner']", 3);
+            messageWindow = driver.FindElement(By.XPath("//div[@class='ns-box-inner']"));
+
+            string message = messageWindow.Text;
+
+            //Wait.WaitToBeExists(LocatorType.XPath, "//*[@class='ns-close']", 3);
+            closeMessageIcon = driver.FindElement(By.XPath("//*[@class='ns-close']"));
+
+            //If any message visible close it
+            closeMessageIcon.Click();
+
+            if (IsCancelSkillBtnVisible())
+            {
+                skillCancelButton.Click();
+            }
+
+            Assert.That(message, Is.EqualTo("Please enter skill and experience level"), "succes message is not correct for not skill record with partial data");
+        }
+
+        public void AssertDeletedRecord(string skill)
+        {
+            messageWindow = driver.FindElement(By.XPath("//div[@class='ns-box-inner']"));
+            closeMessageIcon = driver.FindElement(By.XPath("//*[@class='ns-close']"));
+
+            string message = messageWindow.Text;
+
+            //If any message visible close it
+            closeMessageIcon.Click();
+
+            if (IsCancelSkillBtnVisible())
+            {
+                skillCancelButton.Click();
+            }
+
+            Assert.That(message, Is.EqualTo(skill + " has been deleted"), "succes message is not correct for delete skill");
+        }
+
+        public void AssertEmptySkills()
+        {
+            Assert.That(GetRecordCount()!=0, "succes message is not correct for delete all skills");
+        }
+
+        #endregion
     }
 }

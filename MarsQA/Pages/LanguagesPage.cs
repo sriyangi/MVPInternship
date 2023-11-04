@@ -11,38 +11,85 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 using TechTalk.SpecFlow;
 using static MarsQA.Helpers.Wait;
-using static MarsQA.Helpers.WebElementAction;
 
 namespace MarsQA.Pages
 {
-    public class LanguagesPage
+    public class LanguagesPage: Driver
     {
-        //Create Language Record
-        public void CreateRecord(string language, string languageLevel)
-        {
-            string languageLevelXpath = "//option[contains(text(),'" + languageLevel +"')]";
-            WebElementAction.LocatorType locatorType = new()
-            {
-                XPath = true
-            };
+        private IWebElement languageTab;
+        private IWebElement languageTable;
+        private IWebElement addNewButton;
+        private IWebElement languageTextbox;
+        private IWebElement languageLevelDropdownSelect;
+        private IWebElement languageLevelDropdown;
+        private IWebElement languageAddButton;
+        private IWebElement languageUpdateButton;
+        private IWebElement languageCancelButton;
+        private IWebElement messageWindow;
+        private IWebElement closeMessageIcon;
 
-            WebElementAction.WaitType waitType = new()
+        #region Render Elements
+
+        public void renderAddElements()
+        {
+            languageTextbox = driver.FindElement(By.XPath("//input[@type='text' and @placeholder='Add Language']"));
+            languageLevelDropdownSelect = driver.FindElement(By.XPath("//select"));
+            languageAddButton = driver.FindElement(By.XPath("//input[@type='button' and @value='Add']"));
+            languageCancelButton = driver.FindElement(By.XPath("//input[@type='button' and @value='Cancel']"));
+        }
+
+        public void renderEditlements()
+        {
+            languageTextbox = driver.FindElement(By.XPath("//input[@type='text' and @placeholder='Add Language']"));
+            languageLevelDropdownSelect = driver.FindElement(By.XPath("//select"));
+            languageUpdateButton = driver.FindElement(By.XPath("//input[@type='button' and @value='Update']"));
+            languageCancelButton = driver.FindElement(By.XPath("//input[@type='button' and @value='Cancel']"));
+        }
+
+        #endregion
+
+        #region Page Data Manipulation
+
+        //Clear State
+        public void DeleteAllRecords()
+        {
+            IList<IWebElement> tbodyCollection = languageTable.FindElements(By.TagName("tbody"));
+            IList<IWebElement> trCollection;
+            IList<IWebElement> tdCollection;
+            IList<IWebElement> spanCollection;
+
+            //loop every row in the table and init the columns to list
+            foreach (IWebElement tbodyElement in tbodyCollection)
             {
-                ToBeVisible = true
-            };
+                trCollection = tbodyElement.FindElements(By.TagName("tr"));
+
+                foreach (IWebElement trElement in trCollection)
+                {
+                    tdCollection = trElement.FindElements(By.TagName("td"));
+                    spanCollection = tdCollection[2].FindElements(By.TagName("span"));
+                    spanCollection[1].Click();
+                }
+            }
+        }
+
+        //Create Language Record
+        public void CreateRecord(string skill, string skillLevel)
+        {
+            string skillLevelXpath = "//option[contains(text(),'" + skillLevel + "')]";
 
             //If Cancel button is visible, first click it
-            if (IsCancelLanguageBtnVisible()) WebElementAction.ButtonClick(waitType, locatorType, "//input[@type='button' and @value='Cancel']", 3);
+            if (IsCancelLanguageBtnVisible()) languageCancelButton.Click();
 
-            //Check whether the "Add New" button iss visible
             if (IsAddNewLanguageBtnVisible())
             {
-                WebElementAction.ButtonClick(waitType, locatorType, "//*[@id=\"account-profile-section\"]/div/section[2]/div/div/div/div[3]/form/div[2]/div/div[2]/div/table/thead/tr/th[3]/div", 3);
+                addNewButton.Click();
+                renderAddElements();
 
-                WebElementAction.SendKeys(waitType, locatorType, "//input[@type='text' and @placeholder='Add Language']", 3, language);
-                WebElementAction.ButtonClick(waitType, locatorType, "//select", 3);
-                WebElementAction.ButtonClick(waitType, locatorType, languageLevelXpath, 3);
-                WebElementAction.ButtonClick(waitType, locatorType, "//input[@type='button' and @value='Add']", 3);
+                languageTextbox.SendKeys(skill);
+                languageLevelDropdownSelect.Click();
+                languageLevelDropdown = driver.FindElement(By.XPath(skillLevelXpath));
+                languageLevelDropdown.Click();
+                languageAddButton.Click();
             }
             else
             {
@@ -50,19 +97,42 @@ namespace MarsQA.Pages
             }
         }
 
+        //Edit Language Record
+        public void EditRecord(string oldLanguage, string oldLanguageLevel, string newLanguage, string newLanguageLevel)
+        {
+            string languageLevelXpath = "//option[contains(text(),'" + newLanguageLevel + "')]";
+
+            //If Cancel button is visible, first click it
+            if (IsCancelLanguageBtnVisible()) languageCancelButton.Click();
+
+            GetEditDeletButtonElement(true, true, oldLanguage, oldLanguageLevel).Click();
+            renderEditlements();
+
+            languageTextbox.Clear();
+            languageTextbox.SendKeys(newLanguage);
+            languageLevelDropdownSelect.Click();
+            languageLevelDropdown = driver.FindElement(By.XPath(languageLevelXpath));
+            languageLevelDropdown.Click();
+            languageUpdateButton.Click();
+        }
+
+        //Delete Language Record
+        public void DeletRecord(string language, string languageLevel)
+        {
+            //If Cancel button is visible, click on it
+            if (IsCancelLanguageBtnVisible()) languageCancelButton.Click();
+
+            GetEditDeletButtonElement(false, true, language, languageLevel).Click();
+        }
+
+        #endregion
+
+        #region Supporting Methods
+
         //Check for exeisting records in the grid
         public bool CheckforExistingRecord(string value, string levelValue)
         {
-            WebElementAction.LocatorType locatorType = new()
-            {
-                XPath = true
-            };
-
-            string xPath = "//*[@id=\"account-profile-section\"]/div/section[2]/div/div/div/div[3]/form/div[2]/div/div[2]/div/table";
-
-            IWebElement tableElement = WebElementAction.FindWebElement(locatorType, xPath);
-
-            IList<IWebElement> tbodyCollection = tableElement.FindElements(By.TagName("tbody"));
+            IList<IWebElement> tbodyCollection = languageTable.FindElements(By.TagName("tbody"));
             IList<IWebElement> trCollection;
             IList<IWebElement> tdCollection;
 
@@ -82,54 +152,11 @@ namespace MarsQA.Pages
             }
             return false;
         }
-        
-        //Get exisiting record count for a given language 
-        public int GetExistingRecordCount(string value)
-        {
-            int recordCount = 0;
-            WebElementAction.LocatorType locatorType = new()
-            {
-                XPath = true
-            };
-
-            string xPath = "//*[@id=\"account-profile-section\"]/div/section[2]/div/div/div/div[3]/form/div[2]/div/div[2]/div/table";
-
-            IWebElement tableElement = WebElementAction.FindWebElement(locatorType, xPath);
-
-            IList<IWebElement> tbodyCollection = tableElement.FindElements(By.TagName("tbody"));
-            IList<IWebElement> trCollection;
-            IList<IWebElement> tdCollection;
-
-            //loop every row in the table and init the columns to list
-            foreach (IWebElement tbodyElement in tbodyCollection)
-            {
-                trCollection = tbodyElement.FindElements(By.TagName("tr"));
-
-                foreach (IWebElement trElement in trCollection)
-                {
-                    tdCollection = trElement.FindElements(By.TagName("td"));
-                    if (tdCollection[0].Text == value)
-                    {
-                        recordCount = recordCount+1;
-                    }
-                }
-            }
-            return recordCount;
-        }
 
         //Get record count in the grid
-        public int GetRecordCount(string value)
+        public int GetRecordCount()
         {
-            WebElementAction.LocatorType locatorType = new()
-            {
-                XPath = true
-            };
-
-            string xPath = "//*[@id=\"account-profile-section\"]/div/section[2]/div/div/div/div[3]/form/div[2]/div/div[2]/div/table";
-
-            IWebElement tableElement = WebElementAction.FindWebElement(locatorType, xPath);
-
-            IList<IWebElement> tbodyCollection = tableElement.FindElements(By.TagName("tbody"));
+            IList<IWebElement> tbodyCollection = languageTable.FindElements(By.TagName("tbody"));
 
             return tbodyCollection.Count;
         }
@@ -137,16 +164,7 @@ namespace MarsQA.Pages
         //Common method to return Edit or Delete button depending on the parameter
         public IWebElement GetEditDeletButtonElement(bool isEdit, bool isLanguage, string value, string levelValue)
         {
-            WebElementAction.LocatorType locatorType = new()
-            {
-                XPath = true
-            };
-
-            string xPath = "//*[@id=\"account-profile-section\"]/div/section[2]/div/div/div/div[3]/form/div[2]/div/div[2]/div/table";
-
-            IWebElement tableElement = WebElementAction.FindWebElement(locatorType, xPath);
-
-            IList<IWebElement> tbodyCollection = tableElement.FindElements(By.TagName("tbody"));
+            IList<IWebElement> tbodyCollection = languageTable.FindElements(By.TagName("tbody"));
             IList<IWebElement> trCollection;
             IList<IWebElement> tdCollection;
             IList<IWebElement> spanCollection;
@@ -173,48 +191,22 @@ namespace MarsQA.Pages
         //Click on Language Tab
         public void GoToLanguageTab()
         {
-            WebElementAction.LocatorType locatorType = new()
+            languageTab = driver.FindElement(By.XPath("//a[contains(text(),'Languages')]"));
+            languageTab.Click();
+            languageTable = driver.FindElement(By.XPath("//*[@id=\"account-profile-section\"]/div/section[2]/div/div/div/div[3]/form/div[2]/div/div[2]/div/table"));
+
+            if (IsAddNewLanguageBtnVisible())
             {
-                XPath = true
-            };
-
-            WebElementAction.WaitType waitType = new WebElementAction.WaitType();
-            waitType.ToBeClickable = true;
-
-            WebElementAction.ButtonClick(waitType, locatorType, "//a[contains(text(),'Languages')]", 3);
+                addNewButton = driver.FindElement(By.XPath("//*[@id=\"account-profile-section\"]/div/section[2]/div/div/div/div[3]/form/div[2]/div/div[2]/div/table/thead/tr/th[3]/div"));
+            }
         }
 
         //Check wheather the "Add New" button is visible
         public bool IsAddNewLanguageBtnVisible()
         {
-            WebElementAction.LocatorType locatorType = new()
-            {
-                XPath = true
-            };
-
             try
             {
-                IWebElement addNewLanguageButton = WebElementAction.FindWebElement(locatorType, "//*[@id=\"account-profile-section\"]/div/section[2]/div/div/div/div[3]/form/div[2]/div/div[2]/div/table/thead/tr/th[3]/div");
-                
-                return true; 
-            }
-            catch(Exception exception)
-            {
-                return false;
-            }
-        }
-
-        //Check wheather the "Cancel" button is visible
-        public bool IsCancelLanguageBtnVisible()
-        {
-            WebElementAction.LocatorType locatorType = new()
-            {
-                XPath = true
-            };
-
-            try
-            {
-                IWebElement cancelLanguageButton = WebElementAction.FindWebElement(locatorType, "//input[@type='button' and @value='Cancel']");
+                languageCancelButton = driver.FindElement(By.XPath("//*[@id=\"account-profile-section\"]/div/section[2]/div/div/div/div[3]/form/div[2]/div/div[2]/div/table/thead/tr/th[3]/div"));
 
                 return true;
             }
@@ -224,45 +216,129 @@ namespace MarsQA.Pages
             }
         }
 
-        //Edit Language Record
-        public void EditRecord(string oldLanguage, string oldLanguageLevel, string newLanguage, string newLanguageLevel)
+        //Check wheather the "Cancel" button is visible
+        public bool IsCancelLanguageBtnVisible()
         {
-            string languageLevelXpath = "//option[contains(text(),'" + newLanguageLevel + "')]";
-            WebElementAction.LocatorType locatorType = new()
+            try
             {
-                XPath = true
-            };
+                languageCancelButton = driver.FindElement(By.XPath("//input[@type='button' and @value='Cancel']"));
 
-            WebElementAction.WaitType waitType = new WebElementAction.WaitType();
-            waitType.ToBeVisible = true;
+                return true;
+            }
+            catch (Exception exception)
+            {
+                return false;
+            }
+        }
+        #endregion
 
-            //If Cancel button is visible, click on it
-            if (IsCancelLanguageBtnVisible()) WebElementAction.ButtonClick(waitType, locatorType, "//input[@type='button' and @value='Cancel']", 3);
+        #region Assertions
 
-            GetEditDeletButtonElement(true,true, oldLanguage, oldLanguageLevel).Click();
+        public void AssertInsertedRecord(string language)
+        {
+            messageWindow = driver.FindElement(By.XPath("//div[@class='ns-box-inner']"));
+            closeMessageIcon = driver.FindElement(By.XPath("//*[@class='ns-close']"));
 
-            WebElementAction.SendKeys(waitType, locatorType, "//input[@type='text' and @placeholder='Add Language']", 3, newLanguage);
-            WebElementAction.ButtonClick(waitType, locatorType, "//select", 3);
-            WebElementAction.ButtonClick(waitType, locatorType, languageLevelXpath, 3);
-            WebElementAction.ButtonClick(waitType, locatorType, "//input[@type='button' and @value='Update']", 3);
+            string message = messageWindow.Text;
+
+            //If any message visible close it
+            closeMessageIcon.Click();
+
+            if (IsCancelLanguageBtnVisible())
+            {
+                languageCancelButton.Click();
+            }
+
+            Assert.That(message, Is.EqualTo(language + " has been added to your languages"), "succes message is not correct for add language");
         }
 
-        //Delete Language Record
-        public void DeletRecord(string language, string languageLevel)
+        public void AssertDuplicatedRecord(string language)
         {
-            WebElementAction.LocatorType locatorType = new()
+            messageWindow = driver.FindElement(By.XPath("//div[@class='ns-box-inner']"));
+            closeMessageIcon = driver.FindElement(By.XPath("//*[@class='ns-close']"));
+
+            string message = messageWindow.Text;
+
+            //If any message visible close it
+            closeMessageIcon.Click();
+
+            if (IsCancelLanguageBtnVisible())
             {
-                XPath = true
-            };
+                languageCancelButton.Click();
+            }
 
-            WebElementAction.WaitType waitType = new WebElementAction.WaitType();
-            waitType.ToBeVisible = true;
-
-            //If Cancel button is visible, click on it
-            if (IsCancelLanguageBtnVisible()) WebElementAction.ButtonClick(waitType, locatorType, "//input[@type='button' and @value='Cancel']", 3);
-
-            GetEditDeletButtonElement(false, true, language, languageLevel).Click();
+            Assert.That(message == "This language is already exist in your language list." || message == "Duplicated data" || message == "This language is already added to your language list.", "succes message is not correct for duplicated language");
         }
+
+        public void AssertUpdatedRecord(string language)
+        {
+            //Please enter language and level
+
+            Wait.WaitToBeExists(LocatorType.XPath, "//div[@class='ns-box-inner']", 3);
+            messageWindow = driver.FindElement(By.XPath("//div[@class='ns-box-inner']"));
+
+            string message = messageWindow.Text;
+
+            //Wait.WaitToBeExists(LocatorType.XPath, "//*[@class='ns-close']", 3);
+            closeMessageIcon = driver.FindElement(By.XPath("//*[@class='ns-close']"));
+
+            
+
+            //If any message visible close it
+            closeMessageIcon.Click();
+
+            if (IsCancelLanguageBtnVisible())
+            {
+                languageCancelButton.Click();
+            }
+
+            Assert.That(message, Is.EqualTo(language + " has been updated to your languages"), "succes message is not correct for update language");
+        }
+
+        public void AssertIncompleteRecord(string language)
+        {
+            Wait.WaitToBeExists(LocatorType.XPath, "//div[@class='ns-box-inner']", 3);
+            messageWindow = driver.FindElement(By.XPath("//div[@class='ns-box-inner']"));
+
+            string message = messageWindow.Text;
+
+            //Wait.WaitToBeExists(LocatorType.XPath, "//*[@class='ns-close']", 3);
+            closeMessageIcon = driver.FindElement(By.XPath("//*[@class='ns-close']"));
+
+            //If any message visible close it
+            closeMessageIcon.Click();
+
+            if (IsCancelLanguageBtnVisible())
+            {
+                languageCancelButton.Click();
+            }
+
+            Assert.That(message, Is.EqualTo("Please enter language and level"), "succes message is not correct for not language record with partial data");
+        }
+
+        public void AssertDeletedRecord(string language)
+        {
+            messageWindow = driver.FindElement(By.XPath("//div[@class='ns-box-inner']"));
+            closeMessageIcon = driver.FindElement(By.XPath("//*[@class='ns-close']"));
+
+            string message = messageWindow.Text;
+
+            //If any message visible close it
+            closeMessageIcon.Click();
+
+            if (IsCancelLanguageBtnVisible())
+            {
+                languageCancelButton.Click();
+            }
+            Assert.That(message, Is.EqualTo(language + " has been deleted from your languages"), "succes message is not correct for delete language");
+        }
+
+        public void AssertEmptySkills()
+        {
+            Assert.That(GetRecordCount() != 0, "succes message is not correct for delete all languages");
+        }
+
+        #endregion
 
     }
 }
